@@ -1,8 +1,7 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Formulario RayoTarifa</title>
   <style>
     body {
@@ -62,7 +61,7 @@
     <h2>Solicitá tu cotización</h2>
 
     <label for="cliente">Nombre del cliente:</label>
-    <input type="text" id="cliente" name="cliente" required />
+    <input type="text" id="cliente" name="cliente" required>
 
     <label for="tipoCarga">Tipo de carga:</label>
     <select id="tipoCarga" name="tipoCarga" required>
@@ -72,7 +71,7 @@
     </select>
 
     <label for="cantidad">Cantidad / Medida:</label>
-    <input type="text" id="cantidad" name="cantidad" required />
+    <input type="text" id="cantidad" name="cantidad" required>
 
     <label for="provincia">Provincia de destino:</label>
     <select id="provincia" name="provincia" required>
@@ -81,16 +80,16 @@
     </select>
 
     <label for="destinatario">Nombre del destinatario:</label>
-    <input type="text" id="destinatario" name="destinatario" required />
+    <input type="text" id="destinatario" name="destinatario" required>
 
     <label for="dni">DNI del destinatario:</label>
-    <input type="text" id="dni" name="dni" required />
+    <input type="text" id="dni" name="dni" required>
 
     <label for="direccion">Dirección de entrega:</label>
-    <input type="text" id="direccion" name="direccion" required />
+    <input type="text" id="direccion" name="direccion" required>
 
     <label for="email">Email de contacto:</label>
-    <input type="email" id="email" name="email" required />
+    <input type="email" id="email" name="email" required>
 
     <button type="submit">Calcular tarifa</button>
   </form>
@@ -98,8 +97,6 @@
   <div id="resultadoTarifa"></div>
 
   <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxJfK7-i1eYZJN4BfEGiYwVAr8BACO4KXJWfJqNHX2rPDW7PsCgK_c_6V1jfjJqliA4cg/exec';
-
     const tarifasEspeciales = {
       "prieto": { tarifa: 50000, requiereEfectivo: true },
       "rioja refrigeracion": { tarifa: 68000 },
@@ -116,6 +113,7 @@
     const calcularTarifa = (cliente, tipoCarga, cantidad, efectivo) => {
       const nombre = normalizar(cliente);
       const key = Object.keys(tarifasEspeciales).find(k => nombre.includes(k));
+
       if (key) {
         if (tarifasEspeciales[key] === "consulta") {
           return "La carga debe ser cotizada en sistema.";
@@ -153,13 +151,12 @@
     };
 
     function enviarAGoogleSheets(data) {
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbxJfK7-i1eYZJN4BfEGiYwVAr8BACO4KXJWfJqNHX2rPDW7PsCgK_c_6V1jfjJqliA4cg/exec';
       fetch(scriptURL, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: { 'Content-Type': 'application/json' }
-      })
-      .then(response => console.log("Datos enviados correctamente"))
-      .catch(error => console.error("Error al enviar los datos:", error));
+      });
     }
 
     document.getElementById("cotizacionForm").addEventListener("submit", function(e) {
