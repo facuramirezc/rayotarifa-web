@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Formulario de Cotización | Logística El Rayo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f1f1f1;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 20px rgba(0,0,0,0.1);
+      max-width: 500px;
+      width: 90%;
+    }
+
+    h2 {
+      text-align: center;
+      color: #0059ff;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 15px;
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      background: #00b33c;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #00992a;
+    }
+
+    .resultado {
+      margin-top: 20px;
+      font-size: 18px;
+      text-align: center;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Cotizá tu envío</h2>
+    <form id="cotizadorForm">
+      <label for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" required />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required />
+
+      <label for="telefono">Teléfono</label>
+      <input type="tel" id="telefono" name="telefono" />
+
+      <label for="cliente">Cliente habitual (opcional)</label>
+      <input type="text" id="cliente" name="cliente" />
+
+      <label for="tipoCarga">Tipo de carga</label>
+      <select id="tipoCarga" name="tipoCarga" required>
+        <option value="m3">Metro cúbico (m³)</option>
+        <option value="bultos">Bultos</option>
+        <option value="pallet">Pallet</option>
+      </select>
+
+      <label for="valor">Cantidad / Volumen</label>
+      <input type="number" id="valor" name="valor" step="0.01" required />
+
+      <div class="resultado" id="resultado"></div>
+
+      <button type="submit">Calcular y Enviar</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById("cotizadorForm");
+    const resultado = document.getElementById("resultado");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      const url = "https://script.google.com/macros/s/AKfycbz5WrYOneSjsAAE80LBi0vimV8JLhcWKhEfFvfepbY1NHrAMXfxaD8ho569dpAVbJh2tQ/exec";
+
+      resultado.textContent = "Calculando...";
+
+      try {
+        await fetch(url, {
+          method: "POST",
+          mode: "no-cors",
+          body: formData
+        });
+
+        resultado.textContent = "✔️ Tu cotización fue enviada. Nos pondremos en contacto.";
+
+        // Redirige a una página de agradecimiento en 3 segundos
+        setTimeout(() => {
+          window.location.href = "https://logisticaelrayo.com/gracias";
+        }, 3000);
+
+      } catch (error) {
+        resultado.textContent = "❌ Error al enviar. Intentalo nuevamente.";
+      }
+    });
+  </script>
+
+</body>
+</html>
